@@ -17,19 +17,22 @@ def token(request):
     WEIXIN_TOKEN = cf.get('weixin', 'token')
     WEIXIN_ENCODINGAESKEY = cf.get('weixin', 'encodingaeskey')
     WEIXIN_CORPID = cf.get('weixin', 'corpid')
+    print WEIXIN_TOKEN, WEIXIN_ENCODINGAESKEY, WEIXIN_CORPID
     msg_signature = request.GET.get('msg_signature', '')
     timestamp = request.GET.get('timestamp', '')
     nonce = request.GET.get('nonce', '')
     echostr = request.GET.get('echostr', '')
+    print msg_signature, timestamp, nonce, echostr
     wxcpt = WXBizMsgCrypt(WEIXIN_TOKEN, WEIXIN_ENCODINGAESKEY, WEIXIN_CORPID)
     if request.method == "GET":
         ret, echostr = wxcpt.VerifyURL(msg_signature, timestamp, nonce, echostr)
         return HttpResponse(echostr)
     else:
         xml_str = smart_str(request.body)
-        ret, xml_str = wxcpt.DecryptMsg(xml_str, msg_signature, timestamp, nonce)
+        ret, msg = wxcpt.DecryptMsg(xml_str, msg_signature, timestamp, nonce)
+        print ret
         if ret == 0:
-            xml = etree.fromstring(xml_str)
+            xml = etree.fromstring(msg)
             result = ''
         # msg_type = xml.find("MsgType").text
         # create_time = xml.find('CreateTime').text
