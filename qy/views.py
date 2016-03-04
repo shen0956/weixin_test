@@ -28,34 +28,35 @@ def token(request):
         ret, echostr = wxcpt.VerifyURL(msg_signature, timestamp, nonce, echostr)
         return HttpResponse(echostr)
     else:
+        result = ''
         xml_str = smart_str(request.body)
         ret, msg = wxcpt.DecryptMsg(xml_str, msg_signature, timestamp, nonce)
-        print ret
         if ret == 0:
             xml = etree.fromstring(msg)
-            result = ''
-        # msg_type = xml.find("MsgType").text
-        # create_time = xml.find('CreateTime').text
-        # create_time = datetime.fromtimestamp(float(create_time))
-        # result = ''
-        # event = xml.find('Event').text
-        # print event
-        # if event == 'click':
-        #     event_key = xml.find('EventKey').text
-        #     if event_key == 'DERHINO_001':
-        #         message = '请输入机器编号（例如：R001,M008...）：'
-        #         xml = '''
-        #             <xml>
-        #             <ToUserName><![CDATA[%s]]></ToUserName>
-        #             <FromUserName><![CDATA[%s]]></FromUserName>
-        #             <CreateTime>%s</CreateTime>
-        #             <MsgType><![CDATA[text]]></MsgType>
-        #             <Content><![CDATA[%s]]></Content>
-        #             </xml>''' % (from_user_name, WEIXIN_CORPID, str(int(time.time())), message)
-        #         wxcpt=WXBizMsgCrypt(WEIXIN_Token, WEIXIN_ENCODINGAESKEY, WEIXIN_CORPID)
-        #         ret, sEncryptMsg = wxcpt.EncryptMsg(xml, nonce, timestamp)
-        #         print ret
-        #         print sEncryptMsg
+            to_user_name = xml.find("ToUserName").text
+            print u'------ 企业号CorpID: %s ------'.encode('gbk') % to_user_name
+            from_user_name = xml.find("FromUserName").text
+            print u'------ 成员UserID: %s ------'.encode('gbk') % from_user_name
+            msg_type = xml.find("MsgType").text
+            print u'------ 消息类型: %s ------'.encode('gbk') % msg_type
+            if msg_type == 'event':
+                event = xml.find('Event').text
+                print u'------ 事件类型: %s ------'.encode('gbk') % event
+                if event == 'click':
+                    event_key = xml.find('EventKey').text
+                    print u'------ 事件KEY值: %s ------'.encode('gbk') % event_key
+                    if event_key == 'DERHINO_001':
+                        xml = '''
+                            <xml>
+                            <ToUserName><![CDATA[%s]]></ToUserName>
+                            <FromUserName><![CDATA[%s]]></FromUserName>
+                            <CreateTime>%s</CreateTime>
+                            <MsgType><![CDATA[text]]></MsgType>
+                            <Content><![CDATA[%s]]></Content>
+                            </xml>''' % (from_user_name, WEIXIN_CORPID, str(int(time.time())), 'aaaa')
+                        wxcpt=WXBizMsgCrypt(WEIXIN_TOKEN, WEIXIN_ENCODINGAESKEY, WEIXIN_CORPID)
+                        ret, result = wxcpt.EncryptMsg(xml, nonce, timestamp)
+                        print ret
         return HttpResponse(result)
 
 
