@@ -1,0 +1,1 @@
+e:\baiduyun\workspace\Python27\python.exe manage.py runserver
