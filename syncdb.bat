@@ -1,1 +1,1 @@
-e:\baiduyun\workspace\Python27\python.exe manage.py syncdb
+C:\Python27\python.exe manage.py syncdb

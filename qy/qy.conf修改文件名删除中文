@@ -1,4 +1,5 @@
 [weixin]
 token = 123456
-encodingaeskey = ¡Á¡Á¡Á¡Á¡Á¡Á
-corpid = ¡Á¡Á¡Á¡Á¡Á¡Á
+encodingaeskey = adfasdfasf
+corpid = ******
+secret = ************************************
