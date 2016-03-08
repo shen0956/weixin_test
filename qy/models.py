@@ -56,7 +56,7 @@ class WeixinPosition(models.Model):
     label03 = models.CharField(u'地理位置信息', max_length=100, db_column='LABEL03', null=True, blank=True)
     time03 = models.DateTimeField(u'消息创建时间', db_column='TIME03', null=True, blank=True)
     msg_id04 = models.BigIntegerField(u'消息id', db_column='MSG_ID04', null=True, blank=True)
-    sae_pic_url04 = models.URLField(u'图片链接', db_column='SAE_PIC_URL04', null=True, blank=True)
+    pic04 = models.ImageField(upload_to='position_img', null=True, blank=True)
     pic_url04 = models.URLField(u'图片链接', db_column='PIC_URL04', null=True, blank=True)
     media_id04 = models.CharField(u'图片消息媒体id，可以调用多媒体文件下载接口拉取数据。', max_length=100, db_column='MEDIA_ID04', null=True, blank=True)
     time04 = models.DateTimeField(u'消息创建时间', db_column='TIME04', null=True, blank=True)

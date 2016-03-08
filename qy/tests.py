@@ -1,16 +1,4 @@
-"""
-This file demonstrates writing tests using the unittest module. These will pass
-when you run "manage.py test".
+import requests
 
-Replace this with more appropriate tests for your application.
-"""
-
-from django.test import TestCase
-
-
-class SimpleTest(TestCase):
-    def test_basic_addition(self):
-        """
-        Tests that 1 + 1 always equals 2.
-        """
-        self.assertEqual(1 + 1, 2)
+url = 'https://qyapi.weixin.qq.com/cgi-bin/media/get?access_token=RG1cSVOL6npbPM6zbNLLPNxLpmfYSA2wVOG2Ahv0gkAgIwndy40P4T4_7W9ODxZ7Kr6ogXUBMZ6BIpvpzi_7Sw&media_id=15z0GUxmWG54dSDyAXGBKl1nGRfUd5hGx2v-AZ1crJtxcLZeHPlDr1RdqpRgKwakBZIWZErMSAx2K84QA2TcO7g'
+print requests.get(url).content
